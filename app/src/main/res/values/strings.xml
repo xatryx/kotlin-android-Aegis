@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AegisApp</string>
+    <string name="Snackbar_Dummy_LoginError">Please fill up the required data above with appropriate details to complete your login</string>
+    <string name="Snackbar_Dummy_LoginSuccess">Welcome</string>
+    <string name="Input_Missing_Required">Required</string>
 </resources>
