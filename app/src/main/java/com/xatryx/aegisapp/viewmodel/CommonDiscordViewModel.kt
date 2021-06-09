@@ -85,10 +85,15 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
     }
 
     fun queryChannelMessages(channels: ArrayList<GuildChannel>) = viewModelScope.launch(Dispatchers.IO) {
+
+        val tempArray: ArrayList<Message> = arrayListOf()
+
         for (item in channels) {
 
             if (counterChannel == channels.size) {
                 break
+            } else {
+                counterChannel++
             }
 
             Log.i("NetworkState", "RUN $counterChannel")
@@ -97,16 +102,16 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
                     with(ArrayList<Message>()){
                         this.addAll(Gson().fromJson(it, Array<Message>::class.java))
                         Log.i("NetworkState", "jeff is at ${this.size}")
-                        currentChannelMessages.postValue(this)
+                        tempArray.addAll(this)
                     }
                 },
                 {
 
                 }
             )
-
-            counterChannel++
         }
+
+        currentChannelMessages.postValue(tempArray)
     }
 
     fun setState(state: NetworkState, listener: (NetworkState) -> Unit) {
