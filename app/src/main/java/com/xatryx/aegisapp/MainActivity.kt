@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
 import android.util.Log
+import com.bumptech.glide.Glide
 import com.xatryx.aegisapp.databinding.ActivityMainBinding
 import com.xatryx.aegisapp.viewmodel.CommonDiscordViewModel
 import kotlinx.coroutines.*
@@ -29,12 +30,22 @@ class MainActivity : AppCompatActivity(), DIAware {
     override fun onStart() {
         super.onStart()
 
+        viewModel.getGuildDetails().observe(this, { guild ->
+            binding.apply {
+                TVGuildName.text = guild.guildName
+                Glide.with(root).load(guild.guildIcon).into(IVIcon)
+            }
+        })
+
         viewModel.getGuildChannels().observe(this, { channels ->
             viewModel.queryChannelMessages(channels)
         })
 
         viewModel.getChannelMessages().observe(this@MainActivity, { res ->
             binding.tvTotalhat.text = "${res.size}"
+            binding.tvNormalChat.text = "${res.filter { it.messageNeutral > it.messageAbusive && it.messageNeutral > it.messageHate }.size}"
+            binding.tvAbusiveChat.text = "${res.filter { it.messageAbusive > it.messageNeutral && it.messageAbusive > it.messageHate }.size}"
+            binding.tvHateChat.text = "${res.filter { it.messageHate > it.messageNeutral && it.messageHate > it.messageAbusive }.size}"
         })
     }
 }
