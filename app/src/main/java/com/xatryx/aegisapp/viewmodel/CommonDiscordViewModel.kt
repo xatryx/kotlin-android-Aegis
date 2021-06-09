@@ -11,6 +11,7 @@ import com.xatryx.aegisapp.model.ChannelDetails
 import com.xatryx.aegisapp.model.GuildChannel
 import com.xatryx.aegisapp.model.GuildDetails
 import com.xatryx.aegisapp.model.Message
+import com.xatryx.aegisapp.util.NetworkState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -28,19 +29,25 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
     private val currentGuildChannels =  MutableLiveData<ArrayList<GuildChannel>>()
     private val currentChannelDetails = MutableLiveData<ChannelDetails>()
     private val currentChannelMessages = MutableLiveData<ArrayList<Message>>()
+    private val currentState = MutableLiveData<NetworkState>()
 
     fun getGuildDetails() : LiveData<GuildDetails> = currentGuildDetails
     fun getGuildChannels() : LiveData<ArrayList<GuildChannel>> = currentGuildChannels
     fun getChannelDetails() : LiveData<ChannelDetails> = currentChannelDetails
     fun getChannelMessages() : LiveData<ArrayList<Message>> = currentChannelMessages
+    fun getState() : LiveData<NetworkState> = currentState
 
-    fun queryGuildDetails(guildId: String, guildToken: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun queryGuildDetails(guildId: String, guildToken: String, callback: (NetworkState) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+
+        setState(NetworkState.LOAD, callback)
+
         discordRepository.guildDetails(guildId, guildToken).fold(
             {
+                setState(NetworkState.DONE, callback)
                 currentGuildDetails.postValue(Gson().fromJson(it, GuildDetails::class.java))
             },
             {
-
+                setState(NetworkState.FAIL, callback)
             }
         )
     }
@@ -82,5 +89,10 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
 
             }
         )
+    }
+
+    fun setState(state: NetworkState, listener: (NetworkState) -> Unit) {
+        listener(state)
+        currentState.postValue(state)
     }
 }
