@@ -87,6 +87,7 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
             {
                 with(ArrayList<Message>()){
                     this.addAll(Gson().fromJson(it, Array<Message>::class.java))
+                    Log.i("NetworkState", "jeff is at ${this.toString()}")
                     currentChannelMessages.postValue(this)
                 }
             },

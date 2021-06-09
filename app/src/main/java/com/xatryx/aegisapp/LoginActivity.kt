@@ -68,6 +68,7 @@ class LoginActivity : AppCompatActivity(), DIAware {
 
                         viewModel.getGuildDetails().observe(this@LoginActivity, { item ->
                             if (item.guildId == binding.etGuildId.text.toString() && item.guildToken == binding.etGuildToken.text.toString()) {
+                                viewModel.queryGuildChannels(item.guildId)
                                 Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginSuccess), Snackbar.LENGTH_SHORT).show()
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java).apply {
                                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
