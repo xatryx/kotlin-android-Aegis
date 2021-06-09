@@ -1,6 +1,7 @@
 package com.xatryx.aegisapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -44,7 +45,11 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
         discordRepository.guildDetails(guildId, guildToken).fold(
             {
                 setState(NetworkState.DONE, callback)
-                currentGuildDetails.postValue(Gson().fromJson(it, GuildDetails::class.java))
+                Log.e("NetworkState", "this is $it")
+                with(ArrayList<GuildDetails>()) {
+                    this.addAll(Gson().fromJson(it, Array<GuildDetails>::class.java))
+                    currentGuildDetails.postValue(this.first())
+                }
             },
             {
                 setState(NetworkState.FAIL, callback)
