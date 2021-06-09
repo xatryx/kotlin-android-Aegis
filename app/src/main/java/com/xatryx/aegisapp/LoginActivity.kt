@@ -29,12 +29,6 @@ class LoginActivity : AppCompatActivity(), DIAware {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         onClickHandler()
-
-        Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginSuccess), Snackbar.LENGTH_SHORT).show()
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            finish()
-        })
     }
 
     private fun onClickHandler() {
