@@ -1,4 +1,4 @@
-package com.xatryx.aegisapp
+package com.xatryx.aegisapp.repository
 
 import android.content.Context
 import com.github.kittinunf.fuel.core.FuelError

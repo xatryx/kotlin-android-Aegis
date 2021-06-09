@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.xatryx.aegisapp.DiscordRepository
+import com.xatryx.aegisapp.repository.DiscordRepository
 import com.xatryx.aegisapp.model.ChannelDetails
 import com.xatryx.aegisapp.model.GuildChannel
 import com.xatryx.aegisapp.model.GuildDetails
