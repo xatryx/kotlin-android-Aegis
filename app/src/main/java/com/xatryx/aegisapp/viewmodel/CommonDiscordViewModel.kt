@@ -32,6 +32,8 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
     private val currentChannelMessages = MutableLiveData<ArrayList<Message>>()
     private val currentState = MutableLiveData<NetworkState>()
 
+    var counterChannel = 0
+
     fun getGuildDetails() : LiveData<GuildDetails> = currentGuildDetails
     fun getGuildChannels() : LiveData<ArrayList<GuildChannel>> = currentGuildChannels
     fun getChannelDetails() : LiveData<ChannelDetails> = currentChannelDetails
@@ -82,19 +84,29 @@ class CommonDiscordViewModel(app: Application) : AndroidViewModel(app), DIAware 
         )
     }
 
-    fun queryChannelMessages(channelId: String) = viewModelScope.launch(Dispatchers.IO) {
-        discordRepository.channelMessages(channelId).fold(
-            {
-                with(ArrayList<Message>()){
-                    this.addAll(Gson().fromJson(it, Array<Message>::class.java))
-                    Log.i("NetworkState", "jeff is at ${this.toString()}")
-                    currentChannelMessages.postValue(this)
-                }
-            },
-            {
+    fun queryChannelMessages(channels: ArrayList<GuildChannel>) = viewModelScope.launch(Dispatchers.IO) {
+        for (item in channels) {
 
+            if (counterChannel == channels.size) {
+                break
             }
-        )
+
+            Log.i("NetworkState", "RUN $counterChannel")
+            discordRepository.channelMessages(item.channelId).fold(
+                {
+                    with(ArrayList<Message>()){
+                        this.addAll(Gson().fromJson(it, Array<Message>::class.java))
+                        Log.i("NetworkState", "jeff is at ${this.size}")
+                        currentChannelMessages.postValue(this)
+                    }
+                },
+                {
+
+                }
+            )
+
+            counterChannel++
+        }
     }
 
     fun setState(state: NetworkState, listener: (NetworkState) -> Unit) {

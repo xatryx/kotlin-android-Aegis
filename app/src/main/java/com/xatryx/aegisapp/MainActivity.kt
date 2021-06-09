@@ -24,26 +24,17 @@ class MainActivity : AppCompatActivity(), DIAware {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         viewModel.getGuildChannels().observe(this, { channels ->
+            viewModel.queryChannelMessages(channels)
+        })
 
-            var collection: ArrayList<com.xatryx.aegisapp.model.Message> = arrayListOf()
-
-            for (channel in channels) {
-                runBlocking {
-                    viewModel.queryChannelMessages(channel.channelId)
-
-                    launch {
-                        viewModel.getChannelMessages().observe(this@MainActivity, { res ->
-                            collection.addAll(res)
-                        })
-                    }
-                }
-            }
-
-            Log.i("NetworkState", "mate is at ${collection.toString()}")
-
-            binding.tvNormalChat.text = "${collection.size}"
+        viewModel.getChannelMessages().observe(this@MainActivity, { res ->
+            binding.tvTotalhat.text = "${res.size}"
         })
     }
 }
