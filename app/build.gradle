@@ -65,6 +65,12 @@ dependencies {
     // GSON
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    // Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
+
     implementation "androidx.test.espresso:espresso-idling-resource:3.3.0"
     testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
