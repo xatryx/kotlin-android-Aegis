@@ -3,4 +3,8 @@
     <string name="Snackbar_Dummy_LoginError">Please fill up the required data above with appropriate details to complete your login</string>
     <string name="Snackbar_Dummy_LoginSuccess">Welcome</string>
     <string name="Input_Missing_Required">Required</string>
+    <string name="guild_id">Guild Id</string>
+    <string name="guild_token">Guild Token</string>
+    <string name="what_is_guild_id">What is Guild ID?</string>
+    <string name="by_login_you_agree_with_our_terms_amp_conditions"><![CDATA[By login, you agree with our Terms & Conditions]]></string>
 </resources>

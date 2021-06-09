@@ -14,30 +14,37 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        onClickHandler()
+//        binding.apply {
+//            BLogin.setOnClickListener {
+//                if (ETGuildID.text.isNullOrEmpty()) {
+//                    ETGuildID.error = resources.getString(R.string.Input_Missing_Required)
+//                }
+//
+//                if (ETGuildToken.text.isNullOrEmpty()) {
+//                    ETGuildToken.error = resources.getString(R.string.Input_Missing_Required)
+//                }
+//
+//                if (ETGuildID.text.isNullOrEmpty() || ETGuildToken.text.isNullOrEmpty()) {
+//                    Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginError), Snackbar.LENGTH_SHORT).show()
+//                }
+//
+//                if (!ETGuildID.text.isNullOrEmpty() && !ETGuildToken.text.isNullOrEmpty()) {
+//                    Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginSuccess), Snackbar.LENGTH_SHORT).show()
+//                    startActivity(
+//                        Intent(this@LoginActivity, MainActivity::class.java)
+//                    )
+//                }
+//            }
+//        }
+    }
 
-        supportActionBar?.hide()
-
-        binding.apply {
-            BLogin.setOnClickListener {
-                if (ETGuildID.text.isNullOrEmpty()) {
-                    ETGuildID.error = resources.getString(R.string.Input_Missing_Required)
-                }
-
-                if (ETGuildToken.text.isNullOrEmpty()) {
-                    ETGuildToken.error = resources.getString(R.string.Input_Missing_Required)
-                }
-
-                if (ETGuildID.text.isNullOrEmpty() || ETGuildToken.text.isNullOrEmpty()) {
-                    Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginError), Snackbar.LENGTH_SHORT).show()
-                }
-
-                if (!ETGuildID.text.isNullOrEmpty() && !ETGuildToken.text.isNullOrEmpty()) {
-                    Snackbar.make(binding.root, resources.getString(R.string.Snackbar_Dummy_LoginSuccess), Snackbar.LENGTH_SHORT).show()
-                    startActivity(
-                        Intent(this@LoginActivity, MainActivity::class.java)
-                    )
-                }
-            }
+    private fun onClickHandler() {
+        binding.btnLogin.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                finish()
+            })
         }
     }
 }
