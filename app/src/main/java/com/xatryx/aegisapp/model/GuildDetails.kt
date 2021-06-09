@@ -13,5 +13,5 @@ data class GuildDetails (
     var guildName: String,
 
     @SerializedName("guild_icon_url")
-    var guildIcon: String
+    var guildIcon: String?
 )
